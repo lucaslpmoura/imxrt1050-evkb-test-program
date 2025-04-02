@@ -11,11 +11,6 @@
 //Led Functions
 void Led_TurnOn(void);
 void Led_TurnOff(void);
-void Led_Toggle(void);
-
-//SysTick Functions
-void SysTick_Handler(void);
-void SysTick_DelayTicks(uint32_t n);
-void SysTick_ConfigureInterrupt(uint32_t n);
+bool Led_Toggle(bool led_state);
 
 #endif /* LED_H_ */
