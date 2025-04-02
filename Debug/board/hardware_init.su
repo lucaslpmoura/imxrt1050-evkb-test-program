@@ -1,0 +1,4 @@
+C:\Users\xlouzal00\Documents\MCUXpressoIDE_24.12.148\workspace\SerialConsole_LEDControl\drivers/fsl_common_arm.h:232:20:_SDK_AtomicLocalClearAndSet4Byte	48	static
+C:\Users\xlouzal00\Documents\MCUXpressoIDE_24.12.148\workspace\SerialConsole_LEDControl\drivers/fsl_clock.h:1465:20:CLOCK_ControlGate	32	static
+C:\Users\xlouzal00\Documents\MCUXpressoIDE_24.12.148\workspace\SerialConsole_LEDControl\drivers/fsl_clock.h:1482:20:CLOCK_EnableClock	16	static
+../board/hardware_init.c:14:6:BOARD_InitHardware	8	static

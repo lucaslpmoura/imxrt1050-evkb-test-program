@@ -1,0 +1,8 @@
+C:\Users\xlouzal00\Documents\MCUXpressoIDE_24.12.148\workspace\SerialConsole_LEDControl\CMSIS/core_cm7.h:2143:22:__NVIC_SetPriority	16	static
+C:\Users\xlouzal00\Documents\MCUXpressoIDE_24.12.148\workspace\SerialConsole_LEDControl\CMSIS/core_cm7.h:2361:26:SysTick_Config	16	static
+../board/led.c:23:6:Led_TurnOn	8	static
+../board/led.c:28:6:Led_TurnOff	8	static
+../board/led.c:33:6:Led_Toggle	8	static
+../board/led.c:46:6:SysTick_Handler	4	static
+../board/led.c:58:6:SysTick_DelayTicks	16	static
+../board/led.c:70:6:SysTick_ConfigureInterrupt	16	static
