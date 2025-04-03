@@ -1,7 +1,9 @@
 C:\Users\xlouzal00\Documents\MCUXpressoIDE_24.12.148\workspace\SerialConsole_LEDControl\CMSIS/core_cm7.h:2143:22:__NVIC_SetPriority	16	static
 C:\Users\xlouzal00\Documents\MCUXpressoIDE_24.12.148\workspace\SerialConsole_LEDControl\CMSIS/core_cm7.h:2361:26:SysTick_Config	16	static
-../source/SerialConsole_LEDControl.c:46:6:Print_Menu	16	static
-../source/SerialConsole_LEDControl.c:68:6:LedControlState_Toggle	16	static
-../source/SerialConsole_LEDControl.c:87:6:SysTick_Handler	8	static
-../source/SerialConsole_LEDControl.c:102:6:SysTick_ConfigureInterrupt	16	static
-../source/SerialConsole_LEDControl.c:117:5:main	16	static
+C:\Users\xlouzal00\Documents\MCUXpressoIDE_24.12.148\workspace\SerialConsole_LEDControl\drivers/fsl_gpio.h:318:20:GPIO_PortClearInterruptFlags	16	static
+../source/SerialConsole_LEDControl.c:58:6:Print_Menu	16	static
+../source/SerialConsole_LEDControl.c:80:6:LedControlState_Toggle	16	static
+../source/SerialConsole_LEDControl.c:93:6:GPIO5_Combined_0_15_IRQHandler	8	static
+../source/SerialConsole_LEDControl.c:113:6:SysTick_Handler	8	static
+../source/SerialConsole_LEDControl.c:131:6:SysTick_ConfigureInterrupt	16	static
+../source/SerialConsole_LEDControl.c:146:5:main	16	static

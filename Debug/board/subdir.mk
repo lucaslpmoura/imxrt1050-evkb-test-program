@@ -5,6 +5,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../board/board.c \
+../board/button.c \
 ../board/clock_config.c \
 ../board/hardware_init.c \
 ../board/led.c \
@@ -13,6 +14,7 @@ C_SRCS += \
 
 C_DEPS += \
 ./board/board.d \
+./board/button.d \
 ./board/clock_config.d \
 ./board/hardware_init.d \
 ./board/led.d \
@@ -21,6 +23,7 @@ C_DEPS += \
 
 OBJS += \
 ./board/board.o \
+./board/button.o \
 ./board/clock_config.o \
 ./board/hardware_init.o \
 ./board/led.o \
@@ -40,7 +43,7 @@ board/%.o: ../board/%.c board/subdir.mk
 clean: clean-board
 
 clean-board:
-	-$(RM) ./board/board.d ./board/board.o ./board/clock_config.d ./board/clock_config.o ./board/hardware_init.d ./board/hardware_init.o ./board/led.d ./board/led.o ./board/peripherals.d ./board/peripherals.o ./board/pin_mux.d ./board/pin_mux.o
+	-$(RM) ./board/board.d ./board/board.o ./board/button.d ./board/button.o ./board/clock_config.d ./board/clock_config.o ./board/hardware_init.d ./board/hardware_init.o ./board/led.d ./board/led.o ./board/peripherals.d ./board/peripherals.o ./board/pin_mux.d ./board/pin_mux.o
 
 .PHONY: clean-board
 

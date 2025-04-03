@@ -19,6 +19,7 @@
 
 #include "hardware_init.h"
 #include "led.h"
+#include "button.h"
 /* TODO: insert other include files here. */
 
 /* TODO: insert other definitions and declarations here. */
@@ -37,9 +38,20 @@ typedef enum{
 volatile bool led_state = false; // current led state: false is OFF, true is ON
 led_control_state_t led_control_state = USER; // Informs if Led is blinking or on User (Manual) mode
 
+volatile bool button_state = false;
+
 volatile uint32_t systick_cycle_target = 0; // The number of Systicks that the handler should wait to toggle the Led
 volatile uint32_t systick_cycle_counter = 0; // Counts how many Systicks have occoured so far
-uint32_t led_blink_interval = 100; // Led Blinking interval in Milliseconds
+
+
+uint32_t led_blink_possible_intervals[] = {1000,750, 500, 250, 100};
+uint32_t led_blink_index = 0;
+uint32_t led_blink_interval = 1000;
+
+#define NUM_OF_INTERVALS 5
+
+void SysTick_ConfigureInterrupt(uint32_t n);
+
 /*
  * @brief Prints the options menu
  */
@@ -77,6 +89,20 @@ void LedControlState_Toggle(led_control_state_t *led_control_state){
 }
 
 
+//TODO: Fix Led Blinking Time Cycling
+void Button_OnPressed(void){
+	GPIO_PortClearInterruptFlags(SW8_GPIO, 1U << SW8_GPIO_PIN);
+
+
+	if(led_control_state == BLINKING) {
+		led_blink_interval = led_blink_possible_intervals[(led_blink_index++) % NUM_OF_INTERVALS];
+		SysTick_ConfigureInterrupt(led_blink_interval);
+	}
+
+
+	SDK_ISR_EXIT_BARRIER;
+}
+
 //------- SysTick Functions -----------
 /*
  * @brief Decrements the counter every time the interrupt is called
@@ -88,6 +114,9 @@ void SysTick_Handler(void)
 {
 	systick_cycle_counter++;
 	if(systick_cycle_counter == systick_cycle_target) {
+		if(Button_Read() != 0) {
+		    		PRINTF("Button value is %d\n\r", Button_Read());
+		    	}
 		if(led_control_state == BLINKING){
 			led_state = Led_Toggle(led_state);
 		}
@@ -124,6 +153,7 @@ int main(void) {
 
 
 	BOARD_InitHardware();
+	Button_Init();
 	Led_TurnOff();
 
 

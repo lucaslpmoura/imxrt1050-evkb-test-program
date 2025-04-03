@@ -1,0 +1,6 @@
+C:\Users\xlouzal00\Documents\MCUXpressoIDE_24.12.148\workspace\SerialConsole_LEDControl\CMSIS/core_cm7.h:2013:22:__NVIC_EnableIRQ	16	static
+C:\Users\xlouzal00\Documents\MCUXpressoIDE_24.12.148\workspace\SerialConsole_LEDControl\drivers/fsl_common_arm.h:667:24:EnableIRQ	24	static
+C:\Users\xlouzal00\Documents\MCUXpressoIDE_24.12.148\workspace\SerialConsole_LEDControl\drivers/fsl_gpio.h:176:24:GPIO_PinRead	16	static
+C:\Users\xlouzal00\Documents\MCUXpressoIDE_24.12.148\workspace\SerialConsole_LEDControl\drivers/fsl_gpio.h:253:20:GPIO_PortEnableInterrupts	16	static
+../board/button.c:19:6:Button_Init	8	static
+../board/button.c:28:10:Button_Read	8	static
