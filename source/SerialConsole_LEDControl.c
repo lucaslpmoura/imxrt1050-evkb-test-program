@@ -25,15 +25,21 @@
 #define CARRIAGE_RETURN PUTCHAR('\r')
 #define NOT_IMPLEMENTED PRINTF("\r\nNot Implemented!\n");
 
+#define INTERRUPTS_PER_SECOND 32
+
 typedef enum{
 	USER,
 	BLINKING
 } led_control_state_t;
 
 
-volatile uint32_t g_systickCounter; // Counter used by the delay function
-volatile bool led_state = false; // current led state: false is OFF, true is ON
 
+volatile bool led_state = false; // current led state: false is OFF, true is ON
+led_control_state_t led_control_state = USER; // Informs if Led is blinking or on User (Manual) mode
+
+volatile uint32_t systick_cycle_target = 0; // The number of Systicks that the handler should wait to toggle the Led
+volatile uint32_t systick_cycle_counter = 0; // Counts how many Systicks have occoured so far
+uint32_t led_blink_interval = 100; // Led Blinking interval in Milliseconds
 /*
  * @brief Prints the options menu
  */
@@ -70,23 +76,23 @@ void LedControlState_Toggle(led_control_state_t *led_control_state){
 	}
 }
 
-void Global_Led_Toggle(){
-	led_state = Led_Toggle(led_state);
-}
 
 //------- SysTick Functions -----------
 /*
  * @brief Decrements the counter every time the interrupt is called
- */ TODO: Fix this, not working at all
+ * TODO: Fix this, not working at all
+ */
 volatile uint32_t i = 0;
+
 void SysTick_Handler(void)
 {
-    if (g_systickCounter != 0U)
-    {
-        g_systickCounter--;
-        PRINTF("%d\n\r", i);
-        i++;
-    }
+	systick_cycle_counter++;
+	if(systick_cycle_counter == systick_cycle_target) {
+		if(led_control_state == BLINKING){
+			led_state = Led_Toggle(led_state);
+		}
+		systick_cycle_counter = 0;
+	}
 }
 
 /*
@@ -94,10 +100,13 @@ void SysTick_Handler(void)
  * @params uint32_t n -> number of milliseconds
  */
 void SysTick_ConfigureInterrupt(uint32_t n){
-	if (SysTick_Config(SystemCoreClock / n))
+	if (SysTick_Config(0xFFFFFFUL) == 0) // Started interrupt successfully
 	{
-		while (1)
-		{
+		systick_cycle_target = n/INTERRUPTS_PER_SECOND;
+
+	}else { // Maybe it is good to add some sort of error handling
+		while(1) {
+
 		}
 	}
 }
@@ -111,8 +120,8 @@ int main(void) {
 	char option = '0';
 	char *farewellMessage = "\r\n Terminating program.";
 
-	uint32_t led_blink_interval = 1000000; // Led Blinking interval in Milliseconds?
-	led_control_state_t led_control_state = USER;
+
+
 
 	BOARD_InitHardware();
 	Led_TurnOff();
@@ -145,10 +154,13 @@ int main(void) {
     		Print_Menu(led_control_state);
 
     		if(led_control_state == USER){
-    			PRINTF("\n Stopped blinking Led.\n");
+    			Led_TurnOff();
+    			led_state = false;
+    			PRINTF("\n Stopped blinking Led.\n\r");
     		}
     		if(led_control_state == BLINKING){
     			SysTick_ConfigureInterrupt(led_blink_interval);
+    			PRINTF("\n Started blinking Led with an interval of %d ms.\n\r", led_blink_interval);
     		}
 
     		break;
@@ -157,6 +169,7 @@ int main(void) {
     		break;
     	default:
     		PRINTF("\r\nPlease enter an valid option.\n");
+    		CARRIAGE_RETURN;
     		break;
     	}
     }
