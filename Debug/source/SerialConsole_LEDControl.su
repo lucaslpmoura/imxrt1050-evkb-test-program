@@ -4,6 +4,6 @@ C:\Users\xlouzal00\Documents\MCUXpressoIDE_24.12.148\workspace\SerialConsole_LED
 ../source/SerialConsole_LEDControl.c:58:6:Print_Menu	16	static
 ../source/SerialConsole_LEDControl.c:80:6:LedControlState_Toggle	16	static
 ../source/SerialConsole_LEDControl.c:93:6:GPIO5_Combined_0_15_IRQHandler	8	static
-../source/SerialConsole_LEDControl.c:113:6:SysTick_Handler	8	static
-../source/SerialConsole_LEDControl.c:131:6:SysTick_ConfigureInterrupt	16	static
-../source/SerialConsole_LEDControl.c:146:5:main	16	static
+../source/SerialConsole_LEDControl.c:117:6:SysTick_Handler	8	static
+../source/SerialConsole_LEDControl.c:132:6:SysTick_ConfigureInterrupt	16	static
+../source/SerialConsole_LEDControl.c:147:5:main	16	static

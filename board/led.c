@@ -18,14 +18,14 @@
 
 //----- LED Functions ------
 // 0U turs it on and 1U turns it off (thanks NXP...)
-void Led_TurnOn(void){
+bool Led_TurnOn(void){
 	GPIO_PinWrite(LED0_GPIO, LED0_GPIO_PIN, 0U);
-
+	return true;
 }
 
-void Led_TurnOff(void){
+bool Led_TurnOff(void){
 	GPIO_PinWrite(LED0_GPIO, LED0_GPIO_PIN, 1U);
-
+	return false;
 }
 
 bool Led_Toggle(bool led_state){

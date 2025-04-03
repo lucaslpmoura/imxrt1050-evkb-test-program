@@ -89,14 +89,18 @@ void LedControlState_Toggle(led_control_state_t *led_control_state){
 }
 
 
-//TODO: Fix Led Blinking Time Cycling
+//TODO: Add Debouncing
 void Button_OnPressed(void){
 	GPIO_PortClearInterruptFlags(SW8_GPIO, 1U << SW8_GPIO_PIN);
 
 
 	if(led_control_state == BLINKING) {
-		led_blink_interval = led_blink_possible_intervals[(led_blink_index++) % NUM_OF_INTERVALS];
-		SysTick_ConfigureInterrupt(led_blink_interval);
+		led_blink_index++;
+		led_blink_interval = led_blink_possible_intervals[(led_blink_index) % NUM_OF_INTERVALS];
+		PRINTF("Blinking interval changed to %d ms\n\r", led_blink_interval);
+		led_state = Led_TurnOff();
+		systick_cycle_target = led_blink_interval/INTERRUPTS_PER_SECOND;
+
 	}
 
 
@@ -113,10 +117,7 @@ volatile uint32_t i = 0;
 void SysTick_Handler(void)
 {
 	systick_cycle_counter++;
-	if(systick_cycle_counter == systick_cycle_target) {
-		if(Button_Read() != 0) {
-		    		PRINTF("Button value is %d\n\r", Button_Read());
-		    	}
+	if(systick_cycle_counter >= systick_cycle_target) {
 		if(led_control_state == BLINKING){
 			led_state = Led_Toggle(led_state);
 		}
@@ -154,8 +155,9 @@ int main(void) {
 
 	BOARD_InitHardware();
 	Button_Init();
-	Led_TurnOff();
+	led_state = Led_TurnOff();
 
+	SysTick_ConfigureInterrupt(led_blink_interval);
 
     Print_Menu(led_control_state);
 
@@ -184,12 +186,11 @@ int main(void) {
     		Print_Menu(led_control_state);
 
     		if(led_control_state == USER){
-    			Led_TurnOff();
-    			led_state = false;
+    			led_state = Led_TurnOff();
+    			led_blink_interval = 1000;
     			PRINTF("\n Stopped blinking Led.\n\r");
     		}
     		if(led_control_state == BLINKING){
-    			SysTick_ConfigureInterrupt(led_blink_interval);
     			PRINTF("\n Started blinking Led with an interval of %d ms.\n\r", led_blink_interval);
     		}
 
